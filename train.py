@@ -220,14 +220,19 @@ class Train:
                 output_ = (alpha * label + (1 - alpha) * output.detach()).requires_grad_(True)
                 src_out_ = netD(output_)
 
-                loss_D_real = fn_GAN(pred_real, torch.ones_like(pred_real))
-                loss_D_fake = fn_GAN(pred_fake, torch.zeros_like(pred_fake))
-                # loss_D_real = -torch.mean(pred_real)
-                # loss_D_fake = torch.mean(pred_fake)
+                # BCE Loss
+                # loss_D_real = fn_GAN(pred_real, torch.ones_like(pred_real))
+                # loss_D_fake = fn_GAN(pred_fake, torch.zeros_like(pred_fake))
 
+                # WGAN Loss
+                loss_D_real = torch.mean(pred_real)
+                loss_D_fake = -torch.mean(pred_fake)
+
+                # Gradient penalty Loss
                 loss_D_gp = fn_GP(src_out_, output_)
 
-                loss_D = 0.5 * (loss_D_real + loss_D_fake) + loss_D_gp
+                loss_D = (loss_D_real + loss_D_fake) + loss_D_gp
+                # loss_D = 0.5 * (loss_D_real + loss_D_fake)
 
                 loss_D.backward()
                 optimD.step()
@@ -238,8 +243,8 @@ class Train:
 
                 pred_fake = netD(output)
 
-                loss_G = fn_GAN(pred_fake, torch.ones_like(pred_fake))
-                # loss_G = -torch.mean(pred_fake)
+                # loss_G = fn_GAN(pred_fake, torch.ones_like(pred_fake))
+                loss_G = torch.mean(pred_fake)
 
                 loss_G.backward()
                 optimG.step()
