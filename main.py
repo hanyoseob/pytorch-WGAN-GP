@@ -13,7 +13,7 @@ cudnn.fastest = True
 parser = argparse.ArgumentParser(description='Train the DCGAN network',
                                  formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 
-parser.add_argument('--gpu_ids', default='-1', dest='gpu_ids')
+parser.add_argument('--gpu_ids', default='0', dest='gpu_ids')
 
 parser.add_argument('--mode', default='train', choices=['train', 'test'], dest='mode')
 parser.add_argument('--train_continue', default='off', choices=['on', 'off'], dest='train_continue')
@@ -35,8 +35,8 @@ parser.add_argument('--batch_size', type=int, default=128, dest='batch_size')
 parser.add_argument('--lr_G', type=float, default=2e-4, dest='lr_G')
 parser.add_argument('--lr_D', type=float, default=2e-4, dest='lr_D')
 
-parser.add_argument('--num_freq_disp', type=int,  default=100, dest='num_freq_disp')
-parser.add_argument('--num_freq_save', type=int,  default=2, dest='num_freq_save')
+parser.add_argument('--num_freq_disp', type=int,  default=50, dest='num_freq_disp')
+parser.add_argument('--num_freq_save', type=int,  default=5, dest='num_freq_save')
 
 parser.add_argument('--lr_policy', type=str, default='linear', choices=['linear', 'step', 'plateau', 'cosine'], dest='lr_policy')
 parser.add_argument('--n_epochs', type=int, default=100, dest='n_epochs')

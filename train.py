@@ -144,7 +144,7 @@ class Train:
         ## setup dataset
         dir_chck = os.path.join(self.dir_checkpoint, self.scope, name_data)
 
-        dir_data_train = os.path.join(self.dir_data, name_data, 'train')
+        dir_data_train = os.path.join(self.dir_data, name_data)
         dir_log = os.path.join(self.dir_log, self.scope, name_data)
 
         transform_train = transforms.Compose([Normalize(), Rescale((self.ny_load, self.nx_load)), ToTensor()])
@@ -160,13 +160,13 @@ class Train:
 
         ## setup network
         netG = DCGAN(nch_in, nch_out, nch_ker, norm)
-        netD = Discriminator(nch_out, nch_ker, norm)
+        netD = Discriminator(nch_out, nch_ker, [])
 
         init_net(netG, init_type='normal', init_gain=0.02, gpu_ids=gpu_ids)
         init_net(netD, init_type='normal', init_gain=0.02, gpu_ids=gpu_ids)
 
         ## setup loss & optimization
-        fn_GAN = nn.BCELoss().to(device)
+        fn_GAN = nn.BCEWithLogitsLoss().to(device)
         fn_GP = GradientPaneltyLoss().to(device)
 
         paramsG = netG.parameters()
@@ -203,8 +203,8 @@ class Train:
                 def should(freq):
                     return freq > 0 and (i % freq == 0 or i == num_batch_train)
 
-                input = torch.randn(batch_size, nch_in, ny_in, nx_in).to(device)
                 label = data.to(device)
+                input = torch.randn(label.size(0), nch_in, ny_in, nx_in).to(device)
 
                 # forward netG
                 output = netG(input)
@@ -220,10 +220,10 @@ class Train:
                 output_ = (alpha * label + (1 - alpha) * output.detach()).requires_grad_(True)
                 src_out_ = netD(output_)
 
-                # loss_D_real = fn_GAN(pred_real, torch.ones_like(pred_real))
-                # loss_D_fake = fn_GAN(pred_fake, torch.zeros_like(pred_fake))
-                loss_D_real = -torch.mean(pred_real)
-                loss_D_fake = torch.mean(pred_fake)
+                loss_D_real = fn_GAN(pred_real, torch.ones_like(pred_real))
+                loss_D_fake = fn_GAN(pred_fake, torch.zeros_like(pred_fake))
+                # loss_D_real = -torch.mean(pred_real)
+                # loss_D_fake = torch.mean(pred_fake)
 
                 loss_D_gp = fn_GP(src_out_, output_)
 
@@ -238,8 +238,8 @@ class Train:
 
                 pred_fake = netD(output)
 
-                # loss_G = fn_GAN(pred_fake, torch.ones_like(pred_fake))
-                loss_G = -torch.mean(pred_fake)
+                loss_G = fn_GAN(pred_fake, torch.ones_like(pred_fake))
+                # loss_G = -torch.mean(pred_fake)
 
                 loss_G.backward()
                 optimG.step()
@@ -265,6 +265,7 @@ class Train:
             writer_train.add_scalar('loss_G', mean(loss_G_train), epoch)
             writer_train.add_scalar('loss_D_fake', mean(loss_D_fake_train), epoch)
             writer_train.add_scalar('loss_D_real', mean(loss_D_real_train), epoch)
+            # writer_train.add_scalar('distance_Wasserstein', -(mean(loss_D_fake_train) + mean(loss_D_real_train)), epoch)
 
             # update schduler
             # schedG.step()
