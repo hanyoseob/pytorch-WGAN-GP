@@ -13,7 +13,7 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
 ## Train
     $ python main.py --mode train --scope [scope name]
 
-* Set [scope name] uniquely.
+* Set **[scope name]** uniquely.
 
 
 ## Test
@@ -29,5 +29,5 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
 
 Then, click **http://localhost:6006**
 
-* You can change **[4 digit port number]**
+* You can change **[(optinal) 4 digit port number]**
 * 4 digit port number = 6006 (default)
