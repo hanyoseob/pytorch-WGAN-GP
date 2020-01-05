@@ -4,8 +4,10 @@ import torch
 import torchvision.utils as vutils
 import matplotlib.pyplot as plt
 
-dir_result = './result/wgan/mnist/images'
+dir_result = './result/wgan/celeba/images'
 lst_result = os.listdir(dir_result)
+
+np.random.shuffle(lst_result)
 
 nx = 64
 ny = 64
