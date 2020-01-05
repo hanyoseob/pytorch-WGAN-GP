@@ -21,7 +21,7 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
 
 * Set **[scope name]** to test using scoped network
 * In **result** folder, generated images are saved under the **images** subfolder.
-* In addition, **index.html** are created to illustrate the generated images.  
+* In addition, **index.html** is created to illustrate the generated images.  
 
 
 ## Tensorboard
