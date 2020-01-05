@@ -231,7 +231,7 @@ class Train:
                 # Gradient penalty Loss
                 loss_D_gp = fn_GP(src_out_, output_)
 
-                loss_D = (loss_D_real + loss_D_fake) + loss_D_gp
+                loss_D = 0.5 * (loss_D_real + loss_D_fake) + loss_D_gp
                 # loss_D = 0.5 * (loss_D_real + loss_D_fake)
 
                 loss_D.backward()
