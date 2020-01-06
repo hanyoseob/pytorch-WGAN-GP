@@ -395,7 +395,9 @@ def append_index(dir_result, fileset, step=False):
         index.write("<html><body><table><tr>")
         if step:
             index.write("<th>step</th>")
-        index.write("<th>name</th><th>output</th></tr>")
+        for key, value in fileset.items():
+            index.write("<th>%s</th>" % key)
+        index.write('</tr>')
 
     # for fileset in filesets:
     index.write("<tr>")
@@ -404,9 +406,10 @@ def append_index(dir_result, fileset, step=False):
         index.write("<td>%d</td>" % fileset["step"])
     index.write("<td>%s</td>" % fileset["name"])
 
-    # for kind in ["input", "output", "label"]:
-    for kind in ["output"]:
-        index.write("<td><img src='images/%s'></td>" % fileset[kind])
+    del fileset['name']
+
+    for key, value in fileset.items():
+        index.write("<td><img src='images/%s'></td>" % value)
 
     index.write("</tr>")
     return index_path
