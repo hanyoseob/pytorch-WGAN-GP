@@ -52,7 +52,7 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
     $ tensorboard --logdir [log directory]/[scope name]/[data name] \
                   --port [(optional) 4 digit port number]
 ---
-    $ tensorboard --logdir ./log/wgan-gp/celeba
+    $ tensorboard --logdir ./log/wgan-gp/celeba \
                   --port 6006
                   
 After the above comment executes, go **http://localhost:6006**
@@ -98,7 +98,7 @@ After the above comment executes, go **http://localhost:6006**
 
     pytorch-WGAN-GP
     +---checkpoints
-    |   \---dcgan
+    |   \---wgan-gp
     |       \---celeba
     |           +---model_epoch00001.pth
     |           |   ...
@@ -109,12 +109,12 @@ After the above comment executes, go **http://localhost:6006**
     |       |   ...
     |       \---202599.jpg
     +---log
-    |   \---wgan
+    |   \---wgan-gp
     |       \---celeba
     |           +---arg.txt
     |           \---events.out.tfevents
     \---results
-        \---wgan
+        \---wgan-gp
             \---celeba
                 +---images
                 |   +---0000-output.png
