@@ -15,7 +15,7 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
                      --dir_checkpoint [checkpoint directory]
 ---
     $ python main.py --mode train \
-                     --scope wgan \
+                     --scope wgan-gp \
                      --name_data celeba \
                      --dir_data ./datasets \
                      --dir_log ./log \
@@ -35,7 +35,7 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
                      --dir_result [result directory]
 ---
     $ python main.py --mode test \
-                     --scope wgan \
+                     --scope wgan-gp \
                      --name_data celeba \
                      --dir_data ./datasets \
                      --dir_log ./log \
@@ -51,7 +51,7 @@ Generative Adversarial Networks (GANs) are powerful generative models, but suffe
     $ tensorboard --logdir [log directory]/[scope name]/[data name] \
                   --port [(optional) 4 digit port number]
 ---
-    $ tensorboard --logdir ./log/wgan/celeba
+    $ tensorboard --logdir ./log/wgan-gp/celeba
                   --port 6006
                   
 After the above comment executes, go **http://localhost:6006**
@@ -67,7 +67,7 @@ After the above comment executes, go **http://localhost:6006**
 
 
 ## Directories structure
-    pytorch-WGAN
+    pytorch-WGAN-GP
     +---[dir_checkpoint]
     |   \---[scope]
     |       \---[name_data]
@@ -95,7 +95,7 @@ After the above comment executes, go **http://localhost:6006**
 
 ---
 
-    pytorch-WGAN
+    pytorch-WGAN-GP
     +---checkpoints
     |   \---dcgan
     |       \---celeba
